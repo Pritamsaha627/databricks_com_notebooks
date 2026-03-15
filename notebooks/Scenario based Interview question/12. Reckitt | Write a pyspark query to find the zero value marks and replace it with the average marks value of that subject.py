@@ -49,8 +49,14 @@ final_df.display()
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC with cte as (select subject,avg(marks) as avg_marks from tp
-# MAGIC where marks != 0
-# MAGIC group by subject)
+# MAGIC -- Implement your solution here
+# MAGIC WITH Expanded AS(
+# MAGIC     SELECT name,price FROM products
+# MAGIC     JOIN generate_series(1,quantity) AS qty ON true
+# MAGIC ),
+# MAGIC Ranked AS(
+# MAGIC     SELECT *,ROW_NUMBER()OVER(ORDER BY price ASC) AS rn,SUM(price)OVER(ORDER BY price ASC ROWS UNBOUNDED PRECEDING) AS running_total FROM Expanded
+# MAGIC     )
+# MAGIC     SELECT COUNT(*) AS quantity FROM Ranked
+# MAGIC     WHERE running_total <= 100
 # MAGIC
-# MAGIC select tp.name,tp.subject,(case when tp.marks = 0 then cte.avg_marks else tp.marks end) as marks from tp left join cte on tp.subject = cte.subject
