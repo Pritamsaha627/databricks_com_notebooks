@@ -106,3 +106,29 @@ final_df.drop('id').display()
 #     a = a+5
 #     b = b+5
 #     display(data_df)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Date generator
+
+# COMMAND ----------
+
+# Sample sales data for a quarter (18 weeks), only for Friday, Saturday, Sunday, Monday
+from datetime import datetime, timedelta
+
+days = ['Friday', 'Saturday', 'Sunday', 'Monday']
+start_date = datetime(2026, 1, 2)  
+sales_data = []
+for week in range(18):
+    for i, day in enumerate(days):
+      # print('i :',i)
+      # print('day :',day)
+      # print('timedelta :',timedelta(weeks=week, days=i))
+      date = start_date + timedelta(weeks=week, days=i)
+      # print('date :',date)
+      # print('*'*10)
+      sales = 1000 + week * 100 + i * 50  
+
+      sales_data.append((date.strftime('%Y-%m-%d'), day, sales))
+print(sales_data)
